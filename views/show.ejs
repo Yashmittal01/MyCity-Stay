@@ -1,0 +1,96 @@
+
+<% layout("/layout/boilerplate") %>
+<body>
+    <script>
+        mapToken= "<%= process.env.MAP_TOKEN%>";
+        mapData= <%- JSON.stringify(onelisting)%>
+    </script>
+<div class="row">
+    <div class="col-8 offset-lg-4 offset-sm-1 offset-md-3 offset-xs-1" >
+        <div class="listing-card" style="width: 30em;">
+            <h4 class="heading mt-2"><%= onelisting.title %></h4>
+
+            <img src="<%= onelisting.image.url %>" class="card-img-top show-img mt-1" alt="image" >
+                <div class="card-body">
+                    
+                  <p class="card-text mt-2">
+                    <u><b>Posted by</u>: </b><i><%= onelisting.owner.username%><br></i>
+                    <u><b>About</u>: </b>
+                        <%= onelisting.description %>
+                    <br><u>
+                    <b>Location</u>:</b>
+                    <%= onelisting.location %>,
+                    <%= onelisting.country %>
+                    <br><u><b>Price</u>:</b>
+                    &#8377;<%= onelisting.price.toLocaleString("en-IN") %>/Night
+                </p>
+                 <% if(curruser&& curruser._id.equals(onelisting.owner._id)){ %>
+                    <div class="buttons mb-5">
+                        <a class="btn btn-dark add-btn" href="/listing/<%=onelisting._id%>/edit">Edit</a>
+                        <form method="post" action="/listing/<%=onelisting._id%>?_method=delete"><button class="btn btn-dark add-btn">Delete</button></form>
+                    </div>
+                <% } %> 
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <% if(curruser){ %>
+        <div class="col-8 offset-3 mb-3 mt-3">
+            <h4>Leave a review</h4>
+            <form action="/listing/<%= onelisting._id %>/review" method="post" novalidate class="needs-validation">
+                <div style="display: flex;">
+                    <label for="rating" class="form-label" style="margin-top: 3px;">Rating: </label>
+                <fieldset class="starability-slot" style="margin-left:8px ;">
+                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                  </fieldset>
+                </div>
+                <div>
+                    <label class="form-label">Comment</label>
+                    <textarea name="review[Comment]" class="form-control" id="comment" rows="5" col="30" required></textarea>
+                    <div class="invalid-feedback">Please enter a review</div>
+                </div>
+                <br>
+                <button class="btn btn-dark add-btn">Submit</button>
+            </form> 
+        </div>
+        <hr>
+        <% } %>
+        <% if(onelisting.review.length > 0){ %>
+        <div class="row">
+            <p><b>All Reviews</b></p>
+        <% for(review of onelisting.review){ %>
+            <div class="card review-card col-5 ms-3 mb-3">
+                <div class="card-body">
+                    <p class="card-title"><b>Uname: </b>@<%= review.author.username    %></p>
+                    <p class="card-text"><b>Comment: </b><%= review.Comment %></p>
+                    <p class="starability-result" data-rating=<%= review.rating %>>Rated: 3 stars</p>
+                </div>
+                <% if(curruser && review.author._id.equals(curruser._id)) {%>
+                <form class="mb-3 mt-1" method="post" action="/listing/<%= onelisting._id%>/review/<%= review._id %>?_method=delete">
+                    <button class="del-btn ">Delete</button>
+                </form>
+                <% } %> 
+            </div>
+        <% } %>
+        </div>
+        <% } %>
+        <div class="col-8 offset-lg-4 offset-sm-1 offset-md-3 offset-xs-1" >
+            <h3>Where you'll be</h3>
+            <div id="map"></div>
+        </div>
+        </body>
+    </div>
+</div>
+<script src="/js/map.js"></script>
+

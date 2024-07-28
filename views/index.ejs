@@ -1,0 +1,82 @@
+
+<% layout("/layout/boilerplate") %>
+<body>
+    <div id="filters">
+        <div class="filter" onclick="filter('trending')">
+            <i class="fa-solid fa-fire"></i>
+            <p>Trending</p>
+        </div>
+        <div class="filter" onclick="filter('room')">
+            <i class="fa-solid fa-bed"></i>
+            <p>Room</p>
+        </div>
+        <div class="filter" onclick="filter('camping')">
+            <i class="fa-solid fa-tents"></i>
+            <p>Camping</p>
+        </div>
+        <div class="filter" onclick="filter('iconic-cities')">
+            <i class="fa-solid fa-city"></i>
+            <p>Iconic cities</p>
+        </div>
+        <div class="filter" onclick="filter('mountain')">
+            <i class="fa-solid fa-mountain-sun"></i>
+            <p>Mountain</p>
+        </div>
+        <div class="filter" onclick="filter('castle')">
+            <i class="fa-brands fa-fort-awesome"></i>
+            <p>Castle</p>
+        </div>
+        <div class="filter" onclick="filter('sea-side')">
+            <i class="fa-solid fa-umbrella-beach"></i>
+            <p>Sea Side</p>
+        </div>
+        <div class="filter" onclick="filter('resort')">
+            <i class="fa-solid fa-hotel"></i>
+            <p>Resort</p>
+        </div>
+        <div class="filter" onclick="filter('domes')">
+            <i class="fa-solid fa-igloo"></i>
+            <p>Domes</p>
+        </div>
+        <div class="filter" onclick="filter('amazing-pools')">
+            <i class="fa-solid fa-person-swimming"></i>
+            <p>Amazing pools</p>
+        </div>
+        <div class="filter" onclick="filter('tiny-homes')">
+            <i class="fa-solid fa-house-chimney"></i>
+            <p>Tiny homes</p>
+        </div>
+        <div class="filter" onclick="filter('houseboat')">
+            <i class="fa-solid fa-house-flood-water"></i>
+            <p>HouseBoat</p>
+        </div>
+        <div class="filter" onclick="filter('tree-house')">
+            <i class="fa-solid fa-tree-city"></i>
+            <p>Tree house</p>
+        </div>
+        <div class="filter" onclick="filter('camper-van')">
+            <i class="fa-solid fa-van-shuttle"></i>
+            <p>Camper van</p>
+        </div>
+        <div class="filter" onclick="filter('tower-house')">
+            <i class="fa-solid fa-tower-observation"></i>
+            <p>Tower house</p>
+        </div>
+    </div>
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-xs-1">
+        <% for(let listing of alllisting) {%>
+            <a href="/listing/<%= listing._id%>" class="listing-link">
+                <div class="card col listing-card">
+                    <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
+                    <div class="card-img-overlay"></div>
+                    <div class="card-body">
+                        <b><p class="card-text"><%= listing.title %><br></b>
+                            &#8377;<%= listing.price.toLocaleString("en-IN")%>/night
+                        </p>
+                    </div>
+                </div>
+            </a>
+        <%}%>
+    </div>
+</body>
+
