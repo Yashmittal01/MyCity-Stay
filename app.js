@@ -22,7 +22,8 @@ const store=MongoStore.create({
     },
     touchAfter: 3600*24,
 });
-const sessionOption= { 
+const sessionOption= {
+    store,
     secret: "mysecretcode",
     resave: false,
     saveUninitialized: false,
