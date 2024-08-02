@@ -71,6 +71,9 @@ app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsmate);
 
+app.get("/",(req,res)=>{
+    res.redirect("/listing");
+});
 app.use("/listing", listings);
 app.use("/listing/:id/review", reviews);
 app.use("/",userRoute);
